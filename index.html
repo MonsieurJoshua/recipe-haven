@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Recipe Finder</h1>
+        <div>
+            <h2>Find Recipes by Ingredients</h2>
+            <input type="text" id="ingredientInput" placeholder="Enter ingredient names (comma separated)">
+            <button id="findByIngredients">Find Recipes</button>
+        </div>
+        <div>
+            <h2>Find Recipe by Dish Name</h2>
+            <input type="text" id="dishInput" placeholder="Enter dish name">
+            <button id="findByDish">Find Recipe</button>
+        </div>
+        <div>
+            <h2>Random Recipe Suggestion</h2>
+            <button id="randomRecipe">Suggest a Random Recipe</button>
+        </div>
+        <div id="results"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
