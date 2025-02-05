@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo 'No build process defined'"
-  },
+  "start": "node server.js",
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "your-build-command-here"
+},
+
   "author": "",
   "license": "ISC",
   "description": "",
