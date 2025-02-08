@@ -3,7 +3,11 @@
 document.getElementById('findByIngredients').addEventListener('click', async () => {
     const ingredients = document.getElementById('ingredientInput').value.split(',').map(ing => ing.trim());
     const recipes = await fetchRecipesByIngredients(ingredients);
-    displayResults(recipes);
+    if (recipes.length === 0) {
+        resultsDiv.innerHTML = '<p>No recipes found.</p>';
+    } else {
+        displayResults(recipes);
+    }
 });
 
 document.getElementById('findByDish').addEventListener('click', async () => {
