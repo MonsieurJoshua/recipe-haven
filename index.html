@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Inline Script to Apply Dark Mode Early -->
+  <script>
+    (function() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+
+  <!-- Firebase Initialization -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDmDvdpbOeCcBGxfR6K6I5D5NTb00E54MQ",
+        authDomain: "recipehaven-19ff6.firebaseapp.com",
+        databaseURL: "https://recipehaven-19ff6-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "recipehaven-19ff6",
+        storageBucket: "recipehaven-19ff6.firebasestorage.app",
+        messagingSenderId: "60664855423",
+        appId: "1:60664855423:web:46a49f05911611ab15784a",
+        measurementId: "G-8HE8Z5CP3R"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Expose Firebase services globally for other scripts (such as script.js)
+    window.auth = auth;
+    window.database = database;
+    window.dbRef = ref;
+    window.dbSet = set;
+
+    // Setup a global logout function
+    window.handleLogout = async function() {
+      try {
+        await signOut(auth);
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPicture');
+        window.location.href = 'index.html';
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    };
+
+    // Log the initial auth state (for debugging)
+    auth.onAuthStateChanged((user) => {
+      console.log('Firebase initialized, auth state changed:', user ? 'logged in' : 'logged out');
+    });
+  </script>
+
+  <title>Recipe Haven</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <img src="logo.png" alt="Recipe Haven" class="nav-logo" />
+    </div>
+    <div class="nav-links">
+      <a href="aboutus.html">ABOUT US</a>
+      <a href="ing.html">INGREDIENTS</a>
+      <a href="dish.html">DISH NAME</a>
+      <a href="#" id="suggestDishLink">SUGGEST DISH</a>
+      <button id="loginBtn" class="login-btn">LOG IN</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>START YOUR COOKING JOURNEY WITH US</h1>
+      <button class="learn-more">Learn more</button>
+    </div>
+  </section>
+
+  <main>
+    <!-- Main content goes here -->
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h3>About Recipe Haven</h3>
+        <p>Discover, create, and share delicious recipes from around the world.</p>
+      </div>
+      <div class="footer-section links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="aboutus.html">About</a></li>
+          <li><a href="ing.html">Search by Ingredients</a></li>
+          <li><a href="dish.html">Search by Dish Name</a></li>
+          <li><a href="suggest.html">Random Recipe Suggestor</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h3>Contact Us</h3>
+        <p>Email: info@recipehaven.com</p>
+        <p>Phone: +1 234 567 890</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2024 Recipe Haven | All rights reserved
+    </div>
+  </footer>
+
+  <!-- Inline script to observe auth state and update login button -->
+  <script>
+    // Wait until the DOM is fully loaded.
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.getElementById('loginBtn');
+
+      // Setup auth state observer
+      window.auth.onAuthStateChanged((user) => {
+        console.log('Index page auth state:', user);
+        if (user && loginBtn) {
+          loginBtn.textContent = 'LOG OUT';
+          loginBtn.onclick = window.handleLogout;
+          loginBtn.classList.add('logged-in');
+        } else if (loginBtn) {
+          loginBtn.textContent = 'LOG IN';
+          loginBtn.onclick = () => window.location.href = 'login.html';
+          loginBtn.classList.remove('logged-in');
+        }
+      });
+
+      // Optional: Set up other button event listeners
+      const suggestDishLink = document.getElementById('suggestDishLink');
+      if (suggestDishLink) {
+        suggestDishLink.addEventListener('click', () => {
+          window.location.href = 'suggest.html';
+        });
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+/* Import a Google font for a clean look (optional) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #0e0e0e; /* Dark background */
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container for the entire page (optional extra styling) */
+.login-container {
+  width: 100%;
+  height: 500px;
+  background: transparent;
+  position:fixed;
+  overflow: hidden;
+  margin-right: -910px;
+}
+
+/* The login card */
+.login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+
+  /* Glassmorphism effect */
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.login-card h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+/* Form elements */
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.login-card form input {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  outline: none;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.login-card form input::placeholder {
+  color: #cccccc;
+}
+
+.sign-in-btn {
+  background-color: #7C3AED; /* Accent color for sign-in button */
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.sign-in-btn:hover {
+  background-color: #9F7AEA;
+}
+
+/* Google button */
+.google-btn {
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.google-btn:hover {
+  opacity: 0.9;
+}
+
+/* Sign-up text and link */
+.signup-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.signup-text a {
+  color: #7C3AED;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: -3px;
+    left: 38px;
+    width: 70px;
+    height: 70px;
+    z-index: 1;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+.login-page {
+    background: url('loginimg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+/*Nav*/
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  z-index: 100;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-logo {
+  width: 100px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-left: -10px;
+  margin-top: 10px;
+}
+
+.logo-container span {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1; /* This allows the container to take up available space */
+  position: relative; /* For absolute positioning of dark mode toggle */
+}
+
+.nav-links-center {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: black;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+.login-btn {
+  background: #0e0e0e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-top: 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.navbar {
+  background-color: white;
+  height: 70px;
+}
+
+/* Dark Mode Styles */
+.dark-mode .navbar {
+    background-color: #2c2c2c; /* Dark background for navbar */
+    border-bottom: 1px solid #444; /* Optional: Add a subtle border */
+}
+
+.dark-mode .navbar .nav-logo {
+    filter: brightness(0) invert(1); /* Invert logo colors for better visibility */
+}
+
+.dark-mode .navbar .nav-links a {
+    color: #ffffff; /* White text for navigation links */
+}
+
+.dark-mode .navbar .nav-links a:hover {
+    color: #ffcc00; /* Highlight color on hover */
+}
+
+.dark-mode .navbar .login-btn {
+    background-color: #444; /* Dark background for login button */
+    color: #ffffff; /* White text for login button */
+    border: 1px solid #555; /* Optional: Border for the button */
+}
+
+.dark-mode .navbar .login-btn:hover {
+    background-color: #555; /* Slightly lighter on hover */
+}
+
+/* Dark Mode Toggle Button Styles */
+.dark-mode-toggle {
+    position: absolute;
+    right: 2rem;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.1);
+}
+
+.dark-mode .dark-mode-toggle {
+    color: #ffffff;
+}
+
+/* Additional dark mode styles for other elements can be added here */
+
+/* Update dark mode styles */
+.dark-mode {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+.dark-mode .login-card {
+    background: rgba(45, 45, 45, 0.9);
+}
+
+.dark-mode .login-card input {
+    background: rgba(60, 60, 60, 0.8);
+    color: #e0e0e0;
+}
+
+.dark-mode .login-card input::placeholder {
+    color: #999;
+}
+
+.dark-mode .navbar {
+    background-color: #2d2d2d;
+}
+
+.dark-mode .nav-logo {
+    filter: brightness(0) invert(1); /* This makes the logo white */
+}
+
+/* Dark mode toggle button styles */
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: #e0e0e0;
+}
+
+.dark-mode .dark-mode-toggle {
+    color: #e0e0e0;
+}
+
+
+
+/* Message styling */
+.message {
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.message.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.message.success {
+    background-color: rgba(0, 255, 0, 0.1);
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.message.warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+/* Input validation styling */
+.emailfield:invalid,
+.passfield:invalid {
+    border-color: #dc3545;
+}
+
+.emailfield:valid,
+.passfield:valid {
+    border-color: #28a745;
+}

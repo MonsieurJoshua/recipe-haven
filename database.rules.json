@@ -1,0 +1,72 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid || auth != null",
+        ".write": "$uid === auth.uid || !data.exists()",
+        ".validate": "newData.hasChildren(['email'])",
+        "email": {
+          ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$/)"
+        },
+        "createdAt": {
+          ".validate": "newData.isString()"
+        },
+        "isGoogleUser": {
+          ".validate": "newData.isBoolean()"
+        },
+        "name": {
+          ".validate": "newData.isString() || !newData.exists()"
+        },
+        "picture": {
+          ".validate": "newData.isString() || !newData.exists()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "recipes": {
+      ".read": true,
+      ".write": "auth != null",
+      "$recipeId": {
+        ".validate": "newData.hasChildren(['Title', 'Ingredients', 'Instructions'])",
+        "Title": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "Ingredients": {
+          ".validate": "newData.isString() || newData.hasChildren()"
+        },
+        "Instructions": {
+          ".validate": "newData.isString() || newData.hasChildren()"
+        },
+        "Image_Name": {
+          ".validate": "newData.isString()"
+        },
+        "createdBy": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "userFavorites": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "$recipeId": {
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+    "$other": {
+      ".read": false,
+      ".write": false
+    }
+  }
+} 

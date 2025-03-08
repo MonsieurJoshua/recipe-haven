@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <!-- Inline Script to Apply Dark Mode Early -->
+  <script>
+    (function() {
+      const darkMode = localStorage.getItem('darkMode');
+      if (darkMode === 'enabled') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+  
+  <title>Login</title>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="logstyles.css" />
+  
+  <!-- Add Google Sign-In Script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
+  <!-- Add your Google Client ID -->
+  <meta name="google-signin-client_id" content="713856844743-eil1sugu6qrggrjetdl2jukrdvdnph8u.apps.googleusercontent.com">
+
+  <!-- Add Firebase SDKs before your script.js -->
+  <script type="module">
+    // Import all necessary Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+        getAuth, 
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signInWithCredential,
+        GoogleAuthProvider 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDmDvdpbOeCcBGxfR6K6I5D5NTb00E54MQ",
+        authDomain: "recipehaven-19ff6.firebaseapp.com",
+        databaseURL: "https://recipehaven-19ff6-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "recipehaven-19ff6",
+        storageBucket: "recipehaven-19ff6.firebasestorage.app",
+        messagingSenderId: "60664855423",
+        appId: "1:60664855423:web:46a49f05911611ab15784a",
+        measurementId: "G-8HE8Z5CP3R"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // Make Firebase services and functions available globally
+    window.auth = auth;
+    window.database = database;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.signInWithCredential = signInWithCredential;
+    window.GoogleAuthProvider = GoogleAuthProvider;
+    window.dbRef = ref;
+    window.dbSet = set;
+
+    // Add auth state observer
+    auth.onAuthStateChanged((user) => {
+        console.log('Auth state changed:', user ? 'logged in' : 'logged out');
+    });
+  </script>
+
+  <!-- Change script.js to type="module" -->
+  <script src="script.js" defer></script>
+</head>
+<body class="login-page">
+  
+  
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <!-- Background Click Overlay -->
+      <div class="bg-overlay" onclick="window.location.href='index.html'"></div>
+        <img src="logo.png" alt="Recipe Haven" class="nav-logo">
+    </div> 
+    <div class="nav-links">
+      <div class="nav-links-center">
+        <!-- Add your centered navigation links here if needed -->
+      </div>
+      <!-- Dark mode toggle will be inserted here by JavaScript -->
+    </div>
+  </nav>
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Optional logo or icon can go here -->
+      <!-- <div class="brand-logo"></div> -->
+
+      <h2>Sign Up</h2> 
+
+      <!-- Updated Signup Form with Google Forms integration -->
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <input class="emailfield" type="email" id="email" name="email" placeholder="Email" required />
+        <input class="passfield" type="password" id="password" name="password" placeholder="Password" required />
+        <input class="passfield" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required />
+        <button type="submit" class="sign-in-btn">Sign Up</button>
+      </form>
+
+      <!-- Google Sign-In Button -->
+      <button class="google-btn" onclick="handleGoogleSignIn()">Sign in with Google</button>
+
+      <!-- Sign Up Link -->
+      <p class="signup-text">
+        Already have an account?
+        <a href="login.html">Sign In</a>
+      </p>
+
+      <!-- Add a message div for feedback -->
+      <div id="message" class="message"></div>
+    </div>
+  </div>
+</body>
+</html>
