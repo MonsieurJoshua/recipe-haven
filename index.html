@@ -20,17 +20,8 @@
     import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+    import { firebaseConfig } from "./firebase-config.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDmDvdpbOeCcBGxfR6K6I5D5NTb00E54MQ",
-        authDomain: "recipehaven-19ff6.firebaseapp.com",
-        databaseURL: "https://recipehaven-19ff6-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "recipehaven-19ff6",
-        storageBucket: "recipehaven-19ff6.firebasestorage.app",
-        messagingSenderId: "60664855423",
-        appId: "1:60664855423:web:46a49f05911611ab15784a",
-        measurementId: "G-8HE8Z5CP3R"
-    };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
