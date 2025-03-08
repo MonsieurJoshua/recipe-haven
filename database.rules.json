@@ -1,26 +1,23 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null",
+    ".read": false,
+    ".write": false,
     "users": {
       "$uid": {
-        ".read": "$uid === auth.uid || auth != null",
-        ".write": "$uid === auth.uid || !data.exists()",
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
         ".validate": "newData.hasChildren(['email'])",
         "email": {
           ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$/)"
         },
-        "createdAt": {
+        "name": {
           ".validate": "newData.isString()"
+        },
+        "picture": {
+          ".validate": "newData.isString() && newData.val().beginsWith('https://')"
         },
         "isGoogleUser": {
           ".validate": "newData.isBoolean()"
-        },
-        "name": {
-          ".validate": "newData.isString() || !newData.exists()"
-        },
-        "picture": {
-          ".validate": "newData.isString() || !newData.exists()"
         },
         "$other": {
           ".validate": false
