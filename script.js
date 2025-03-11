@@ -875,4 +875,164 @@ window.auth?.onAuthStateChanged((user) => {
     }
 });
 
-  
+const text1_options = [
+    "Cooking your own meals apparently improves your health, huh... who knew?",
+    "Dont know how to cook? Only if there was a place to learn... oh wait!",
+    "Always try new things..... especially food.",
+    "Is hunger actually real? or is your brain just tricking you?"
+  ];
+  const text2_options = [
+    "~Recipe Haven",
+    "~Recipe Haven",
+    "~Recipe Haven",
+    "~Recipe Haven"
+    
+  ];
+  const color_options = ["#EBB9D2", "#FE9968", "#7FE0EB", "#6CE5B1"];
+  const image_options = [
+    "chefatwork.jpg",
+    "pexels-enginakyurt-1435904.jpg",
+    "pexels-mediocrememories-1040685.jpg",
+    "pexels-robinstickel-70497.jpg"
+  ];
+  var i = 0;
+const currentOptionText1 = document.getElementById("current-option-text1");
+const currentOptionText2 = document.getElementById("current-option-text2");
+const currentOptionImage = document.getElementById("image");
+const carousel = document.getElementById("carousel-wrapper");
+const mainMenu = document.getElementById("menu");
+const optionPrevious = document.getElementById("previous-option");
+const optionNext = document.getElementById("next-option");
+
+currentOptionText1.innerText = text1_options[i];
+currentOptionText2.innerText = text2_options[i];
+currentOptionImage.style.backgroundImage = "url(" + image_options[i] + ")";
+mainMenu.style.background = color_options[i];
+
+optionNext.onclick = function () {
+    carousel.classList.remove("anim-next", "anim-previous");
+    carousel.classList.add('loading');
+    
+    i = (i + 1) % text1_options.length;
+    
+    updateCarouselImage(image_options[i]).then(imagePath => {
+        currentOptionText1.dataset.nextText = text1_options[i];
+        currentOptionText2.dataset.nextText = text2_options[i];
+        mainMenu.style.background = color_options[i];
+        
+        requestAnimationFrame(() => {
+            carousel.classList.remove('loading');
+            carousel.classList.add("anim-next");
+            
+            setTimeout(() => {
+                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
+                currentOptionText1.innerText = text1_options[i];
+                currentOptionText2.innerText = text2_options[i];
+            }, 650);
+            
+            setTimeout(() => {
+                carousel.classList.remove("anim-next");
+            }, 1300);
+        });
+    });
+};
+
+// Similar update for optionPrevious.onclick
+optionPrevious.onclick = function () {
+    carousel.classList.remove("anim-next", "anim-previous");
+    carousel.classList.add('loading');
+    
+    if (i === 0) {
+        i = text1_options.length;
+    }
+    i = i - 1;
+    
+    updateCarouselImage(image_options[i]).then(imagePath => {
+        currentOptionText1.dataset.previousText = text1_options[i];
+        currentOptionText2.dataset.previousText = text2_options[i];
+        mainMenu.style.background = color_options[i];
+        
+        requestAnimationFrame(() => {
+            carousel.classList.remove('loading');
+            carousel.classList.add("anim-previous");
+            
+            setTimeout(() => {
+                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
+                currentOptionText1.innerText = text1_options[i];
+                currentOptionText2.innerText = text2_options[i];
+            }, 650);
+            
+            setTimeout(() => {
+                carousel.classList.remove("anim-previous");
+            }, 1300);
+        });
+    });
+};
+
+// Function to advance to next slide
+function moveToNextSlide() {
+    if (!document.getElementById('carousel-wrapper')) return;
+    
+    // Reset any existing animations
+    carousel.classList.remove("anim-next", "anim-previous");
+    carousel.classList.add('loading');
+    
+    i = (i + 1) % text1_options.length;
+    
+    // Preload next image before starting animation
+    updateCarouselImage(image_options[i]).then(imagePath => {
+        // Start transition once image is loaded
+        currentOptionText1.dataset.nextText = text1_options[i];
+        currentOptionText2.dataset.nextText = text2_options[i];
+        mainMenu.style.background = color_options[i];
+        
+        requestAnimationFrame(() => {
+            carousel.classList.remove('loading');
+            carousel.classList.add("anim-next");
+            
+            setTimeout(() => {
+                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
+                currentOptionText1.innerText = text1_options[i];
+                currentOptionText2.innerText = text2_options[i];
+            }, 650);
+            
+            setTimeout(() => {
+                carousel.classList.remove("anim-next");
+            }, 1300);
+        });
+    });
+}
+
+// Initialize the carousel when the document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  if (!document.getElementById('carousel-wrapper')) return;
+
+  // Preload carousel images immediately
+  preloadCarouselImages();
+
+  // Start the auto-sliding without hover pause
+  let slideInterval = setInterval(moveToNextSlide, 7000);
+
+  // Clean up interval when leaving the page
+  window.addEventListener('beforeunload', () => {
+    clearInterval(slideInterval);
+  });
+});
+
+// Add before carousel initialization
+function preloadCarouselImages() {
+    image_options.forEach(imagePath => {
+        const img = new Image();
+        img.src = imagePath;
+    });
+}
+
+// Modify the image update in moveToNextSlide and click handlers
+function updateCarouselImage(imagePath) {
+    return new Promise((resolve) => {
+        const tempImg = new Image();
+        tempImg.onload = () => resolve(imagePath);
+        tempImg.src = imagePath;
+    });
+}
+

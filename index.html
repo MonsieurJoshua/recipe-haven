@@ -56,6 +56,7 @@
 
   <title>Recipe Haven</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="cc.css" />
 </head>
 <body>
   <!-- Navigation -->
@@ -72,6 +73,7 @@
     </div>
   </nav>
 
+  
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
@@ -80,9 +82,35 @@
     </div>
   </section>
 
-  <main>
-    <!-- Main content goes here -->
-  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const learnMoreBtn = document.querySelector('.learn-more');
+      learnMoreBtn.addEventListener('click', () => {
+        const carouselSection = document.getElementById('carousel-wrapper');
+        if (carouselSection) {
+          const navHeight = document.querySelector('.navbar')?.offsetHeight || 60;
+          const position = carouselSection.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({
+            top: position,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+
+ <!-- Carousel Section -->
+<div id="carousel-wrapper">
+  <div id="menu">
+    <div id="current-option">
+      <span id="current-option-text1" data-previous-text="" data-next-text=""></span>
+      <span id="current-option-text2" data-previous-text="" data-next-text=""></span>
+    </div>
+    <button id="previous-option" aria-label="Previous slide" title="Previous slide"></button>
+    <button id="next-option" aria-label="Next slide" title="Next slide"></button>
+  </div>
+  <div id="image"></div>
+</div>
 
   <footer>
     <div class="footer-content">
