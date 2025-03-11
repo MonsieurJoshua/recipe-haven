@@ -48,7 +48,7 @@
 #carousel-wrapper #menu #current-option #current-option-text1 {
   font-size: 1.6rem;
   line-height: 3rem;
-  width: 500px;
+  width: 530px;
   height: 140px;
   margin-bottom: 0;
   display: flex;
@@ -90,8 +90,8 @@
 #carousel-wrapper #menu #current-option #current-option-text2 {
   font-size: 0.8rem;
   width: 220px;
-  height: 40px;
-  margin-top: -10px;
+  height: 16px;
+  margin-top: -23px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -129,12 +129,11 @@
 }
 
 #carousel-wrapper #menu #previous-option {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 0rem;
+  height: 0rem;
   border: none;
   display: block;
   cursor: pointer;
-  background: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23333'%3E%3C/polygon%3E%3C/svg%3E");
   background-size: cover;
   position: absolute;
   transform: translate(310px, 50px);
@@ -142,12 +141,11 @@
 }
 
 #carousel-wrapper #menu #next-option {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 0rem;
+  height: 0rem;
   border: none;
   display: block;
   cursor: pointer;
-  background: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23333'%3E%3C/polygon%3E%3C/svg%3E");
   background-size: cover;
   position: absolute;
   transform: translate(310px, -50px) rotate(180deg);
@@ -155,18 +153,19 @@
 }
 
 #carousel-wrapper #image {
-  height: 300px;
-  width: 400px;
+  height: 500px;
+  width: 650px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
   transform: translate(140px, 0);
-  margin-right: -150px;
+  margin-right: -350px;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-out;
   background-color: rgba(0, 0, 0, 0.1);
   will-change: transform, opacity;
   backface-visibility: hidden;
+  border-radius: 12px;
 }
 
 #carousel-wrapper.loading #image {

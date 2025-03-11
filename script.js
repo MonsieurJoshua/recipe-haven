@@ -1036,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (!CarouselState.isTransitioning) {
             moveToNextSlide();
         }
-    }, 3000);
+    }, 4500);
 
     // Cleanup
     window.addEventListener('beforeunload', () => {
