@@ -41,13 +41,16 @@
   justify-content: center;
   overflow: hidden;
   isolation: isolate;
+  gap: 0;
+  padding: 10px;
 }
 
 #carousel-wrapper #menu #current-option #current-option-text1 {
   font-size: 1.6rem;
   line-height: 3rem;
   width: 500px;
-  height: 200px;
+  height: 140px;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,6 +91,7 @@
   font-size: 0.8rem;
   width: 220px;
   height: 40px;
+  margin-top: -10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -159,15 +163,15 @@
   position: absolute;
   transform: translate(140px, 0);
   margin-right: -150px;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-out;
   background-color: rgba(0, 0, 0, 0.1);
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
 #carousel-wrapper.loading #image {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  opacity: 0.5;
+  transform: scale(0.98);
 }
 
 #carousel-wrapper.anim-next #current-option-text1,
@@ -185,6 +189,8 @@
 
 #carousel-wrapper.anim-next #image {
   animation: next-image 0.65s 0.085s;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #carousel-wrapper.anim-previous #current-option-text1,
@@ -202,6 +208,8 @@
 
 #carousel-wrapper.anim-previous #image {
   animation: previous-image 0.65s 0.085s;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes previous-text {
@@ -242,10 +250,10 @@
 
 @keyframes next-text {
   50%, 55% {
-    transform: translate(0%, -420px);
+    transform: translate(0%, -440px);
   }
   to {
-    transform: translate(0%, -420px);
+    transform: translate(0%, -440px);
   }
 }
 

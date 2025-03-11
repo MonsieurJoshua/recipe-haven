@@ -909,130 +909,138 @@ currentOptionText2.innerText = text2_options[i];
 currentOptionImage.style.backgroundImage = "url(" + image_options[i] + ")";
 mainMenu.style.background = color_options[i];
 
-optionNext.onclick = function () {
-    carousel.classList.remove("anim-next", "anim-previous");
-    carousel.classList.add('loading');
-    
-    i = (i + 1) % text1_options.length;
-    
-    updateCarouselImage(image_options[i]).then(imagePath => {
-        currentOptionText1.dataset.nextText = text1_options[i];
-        currentOptionText2.dataset.nextText = text2_options[i];
-        mainMenu.style.background = color_options[i];
-        
-        requestAnimationFrame(() => {
-            carousel.classList.remove('loading');
-            carousel.classList.add("anim-next");
-            
-            setTimeout(() => {
-                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
-                currentOptionText1.innerText = text1_options[i];
-                currentOptionText2.innerText = text2_options[i];
-            }, 650);
-            
-            setTimeout(() => {
-                carousel.classList.remove("anim-next");
-            }, 1300);
-        });
-    });
+const CarouselState = {
+    isTransitioning: false,
+    preloadedImages: new Map(),
+    currentIndex: 0
 };
 
-// Similar update for optionPrevious.onclick
-optionPrevious.onclick = function () {
-    carousel.classList.remove("anim-next", "anim-previous");
-    carousel.classList.add('loading');
+async function preloadCarouselImages() {
+    const loadPromises = image_options.map(path => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                CarouselState.preloadedImages.set(path, img);
+                resolve(path);
+            };
+            img.onerror = reject;
+            img.src = path;
+        });
+    });
     
-    if (i === 0) {
-        i = text1_options.length;
+    try {
+        await Promise.all(loadPromises);
+        console.log('All carousel images preloaded');
+    } catch (error) {
+        console.error('Error preloading images:', error);
     }
-    i = i - 1;
-    
-    updateCarouselImage(image_options[i]).then(imagePath => {
-        currentOptionText1.dataset.previousText = text1_options[i];
-        currentOptionText2.dataset.previousText = text2_options[i];
-        mainMenu.style.background = color_options[i];
-        
-        requestAnimationFrame(() => {
-            carousel.classList.remove('loading');
-            carousel.classList.add("anim-previous");
-            
-            setTimeout(() => {
-                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
-                currentOptionText1.innerText = text1_options[i];
-                currentOptionText2.innerText = text2_options[i];
-            }, 650);
-            
-            setTimeout(() => {
-                carousel.classList.remove("anim-previous");
-            }, 1300);
-        });
-    });
-};
+}
 
-// Function to advance to next slide
-function moveToNextSlide() {
-    if (!document.getElementById('carousel-wrapper')) return;
-    
-    // Reset any existing animations
-    carousel.classList.remove("anim-next", "anim-previous");
+async function transitionToSlide(nextIndex, direction = 'next') {
+    if (CarouselState.isTransitioning) return;
+    CarouselState.isTransitioning = true;
+
+    const nextImage = image_options[nextIndex];
+    const animClass = `anim-${direction}`;
+
+    // Start loading next image before transition
+    if (!CarouselState.preloadedImages.has(nextImage)) {
+        await preloadImage(nextImage);
+    }
+
+    // Set data attributes
+    if (direction === 'next') {
+        currentOptionText1.dataset.nextText = text1_options[nextIndex];
+        currentOptionText2.dataset.nextText = text2_options[nextIndex];
+    } else {
+        currentOptionText1.dataset.previousText = text1_options[nextIndex];
+        currentOptionText2.dataset.previousText = text2_options[nextIndex];
+    }
+
+    // Transition sequence
     carousel.classList.add('loading');
     
-    i = (i + 1) % text1_options.length;
+    await new Promise(resolve => setTimeout(resolve, 200)); // Increased from 100
     
-    // Preload next image before starting animation
-    updateCarouselImage(image_options[i]).then(imagePath => {
-        // Start transition once image is loaded
-        currentOptionText1.dataset.nextText = text1_options[i];
-        currentOptionText2.dataset.nextText = text2_options[i];
-        mainMenu.style.background = color_options[i];
+    requestAnimationFrame(() => {
+        carousel.classList.remove('loading');
+        carousel.classList.add(animClass);
         
-        requestAnimationFrame(() => {
-            carousel.classList.remove('loading');
-            carousel.classList.add("anim-next");
+        setTimeout(() => {
+            mainMenu.style.background = color_options[nextIndex];
+            currentOptionImage.style.backgroundImage = `url(${nextImage})`;
             
-            setTimeout(() => {
-                currentOptionImage.style.backgroundImage = `url(${imagePath})`;
-                currentOptionText1.innerText = text1_options[i];
-                currentOptionText2.innerText = text2_options[i];
-            }, 650);
-            
-            setTimeout(() => {
-                carousel.classList.remove("anim-next");
-            }, 1300);
-        });
+            requestAnimationFrame(() => {
+                currentOptionText1.innerText = text1_options[nextIndex];
+                currentOptionText2.innerText = text2_options[nextIndex];
+            });
+        }, 400); // Increased from 300
+
+        setTimeout(() => {
+            carousel.classList.remove(animClass);
+            CarouselState.isTransitioning = false;
+            CarouselState.currentIndex = nextIndex;
+        }, 800); // Increased from 650
     });
 }
 
-// Initialize the carousel when the document is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  if (!document.getElementById('carousel-wrapper')) return;
-
-  // Preload carousel images immediately
-  preloadCarouselImages();
-
-  // Start the auto-sliding without hover pause
-  let slideInterval = setInterval(moveToNextSlide, 7000);
-
-  // Clean up interval when leaving the page
-  window.addEventListener('beforeunload', () => {
-    clearInterval(slideInterval);
-  });
-});
-
-// Add before carousel initialization
-function preloadCarouselImages() {
-    image_options.forEach(imagePath => {
+function preloadImage(src) {
+    return new Promise((resolve, reject) => {
         const img = new Image();
-        img.src = imagePath;
+        img.onload = () => {
+            CarouselState.preloadedImages.set(src, img);
+            resolve(src);
+        };
+        img.onerror = reject;
+        img.src = src;
     });
 }
 
-// Modify the image update in moveToNextSlide and click handlers
-function updateCarouselImage(imagePath) {
-    return new Promise((resolve) => {
-        const tempImg = new Image();
-        tempImg.onload = () => resolve(imagePath);
-        tempImg.src = imagePath;
-    });
+function moveToNextSlide() {
+    const nextIndex = (CarouselState.currentIndex + 1) % text1_options.length;
+    transitionToSlide(nextIndex, 'next');
 }
+
+// Update click handlers
+optionNext.onclick = function() {
+    const nextIndex = (CarouselState.currentIndex + 1) % text1_options.length;
+    transitionToSlide(nextIndex, 'next');
+};
+
+optionPrevious.onclick = function() {
+    const nextIndex = CarouselState.currentIndex === 0 ? 
+        text1_options.length - 1 : 
+        CarouselState.currentIndex - 1;
+    transitionToSlide(nextIndex, 'previous');
+};
+
+// Initialize carousel
+document.addEventListener('DOMContentLoaded', async function() {
+    if (!document.getElementById('carousel-wrapper')) return;
+
+    // Initialize first slide
+    CarouselState.currentIndex = 0;
+    currentOptionText1.innerText = text1_options[0];
+    currentOptionText2.innerText = text2_options[0];
+    mainMenu.style.background = color_options[0];
+
+    // Preload images before starting auto-slide
+    await preloadCarouselImages();
+    
+    if (CarouselState.preloadedImages.has(image_options[0])) {
+        currentOptionImage.style.backgroundImage = `url(${image_options[0]})`;
+    }
+
+    // Start auto-slide
+    const slideInterval = setInterval(() => {
+        if (!CarouselState.isTransitioning) {
+            moveToNextSlide();
+        }
+    }, 3000);
+
+    // Cleanup
+    window.addEventListener('beforeunload', () => {
+        clearInterval(slideInterval);
+    });
+});
 
