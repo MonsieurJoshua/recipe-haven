@@ -1,5 +1,25 @@
 {
   "dependencies": {
+    "express": "^4.21.2",
     "firebase": "^11.4.0"
-  }
+  },
+  "name": "scratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "firebase-config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonsieurJoshua/recipe-haven.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MonsieurJoshua/recipe-haven/issues"
+  },
+  "homepage": "https://github.com/MonsieurJoshua/recipe-haven#readme"
 }
