@@ -284,3 +284,12 @@
   background-color: #333;
   color: inherit;
 }
+
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text1,
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text2,
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text1::before,
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text1::after,
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text2::before,
+.dark-mode #carousel-wrapper #menu #current-option #current-option-text2::after {
+    color: #000;
+}
