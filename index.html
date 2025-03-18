@@ -85,19 +85,93 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const learnMoreBtn = document.querySelector('.learn-more');
+      let isAutoScrolling = false;
+      let animationFrameId = null;
+
+      // Stop auto-scroll when user manually scrolls
+      document.addEventListener('wheel', () => {
+        if (isAutoScrolling) {
+          cancelAnimationFrame(animationFrameId);
+          isAutoScrolling = false;
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchmove', () => {
+        if (isAutoScrolling) {
+          cancelAnimationFrame(animationFrameId);
+          isAutoScrolling = false;
+        }
+      }, { passive: true });
+
       learnMoreBtn.addEventListener('click', () => {
         const carouselSection = document.getElementById('carousel-wrapper');
-        if (carouselSection) {
-          const navHeight = document.querySelector('.navbar')?.offsetHeight || 60;
-          const position = carouselSection.getBoundingClientRect().top + window.scrollY - navHeight;
-          window.scrollTo({
-            top: position,
-            behavior: 'smooth'
-          });
-        }
+        if (!carouselSection) return;
+
+        // Get the target position, accounting for navbar height
+        const targetPosition = carouselSection.offsetTop - 60;
+
+        // Smooth scroll to target
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      });
+
+      // Updated intersection observer for content images
+      const images = document.querySelectorAll('.content img');
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          } else if (entry.intersectionRatio <= 0.2) { // More forgiving threshold
+            entry.target.classList.remove('in-view');
+          }
+        });
+      }, {
+        threshold: [0, 0.2, 1], // Simplified thresholds
+        rootMargin: '-10%' // Increased margin to prevent premature triggering
+      });
+
+      images.forEach(img => {
+        imageObserver.observe(img);
       });
     });
   </script>
+
+<section class="content">
+    <div>
+        <div class="text-section">
+            <h3>Search by Ingredients</h3>
+            <p>Find recipes based on the ingredients you have at home.</p>
+            <a href="ing.html">Get Started</a>
+        </div>
+        <div class="image-section">
+            <img src="pexels-elevate-1267320.jpg" alt="Fresh ingredients">
+        </div>
+    </div>
+
+    <div>
+        <div class="text-section">
+            <h3>Search by Recipe Name</h3>
+            <p>Looking for a specific recipe? Search our extensive database.</p>
+            <a href="dish.html">Find Recipes</a>
+        </div>
+        <div class="image-section">
+            <img src="pexels-juanpphotoandvideo-1587830.jpg" alt="Recipe book">
+        </div>
+    </div>
+
+    <div>
+        <div class="text-section">
+            <h3>Get Random Suggestions</h3>
+            <p>Feeling adventurous? Let us suggest something new!</p>
+            <a href="suggest.html">Surprise Me</a>
+        </div>
+        <div class="image-section">
+            <img src="pexels-minan1398-1482803.jpg" alt="Random dish suggestion">
+        </div>
+    </div>
+</section>
 
  <!-- Carousel Section -->
 <div id="carousel-wrapper">

@@ -788,32 +788,33 @@ window.handleLogin = async function(event) {
     }
 };
 
-// Update Google Sign-In initialization
+// Update Google Sign-In initialization with new client ID
 function initializeGoogleSignIn() {
-    if (typeof google !== 'undefined' && google.accounts) {
-        google.accounts.id.initialize({
-            client_id: '713856844743-eil1sugu6qrggrjetdl2jukrdvdnph8u.apps.googleusercontent.com',
-            callback: handleGoogleSignInCallback
-        });
+    const googleProvider = new window.GoogleAuthProvider();
+    
+    // Configure Google Sign-in
+    google.accounts.id.initialize({
+        client_id: '60664855423-k8slt2ktt1uhvrm6174qb0epokmgi5da.apps.googleusercontent.com',
+        callback: handleGoogleSignInCallback,
+        auto_select: false
+    });
 
-        const googleBtn = document.querySelector('.google-btn');
-        if (googleBtn) {
-            google.accounts.id.renderButton(googleBtn, {
-                theme: document.documentElement.classList.contains('dark-mode') ? 'filled_black' : 'outline',
-                size: 'large',
-                text: 'signin_with',
-                width: googleBtn.offsetWidth
-            });
-        }
+    // Render Google Sign-in button
+    const googleBtn = document.getElementById('googleSignIn');
+    if (googleBtn) {
+        googleBtn.onclick = function(e) {
+            e.preventDefault();
+            handleGoogleSignIn();
+        };
     }
 }
 
-// Google Sign-In callback handler
-window.handleGoogleSignInCallback = async function(response) {
+// Update Google Sign-In handler
+window.handleGoogleSignIn = async function() {
     try {
-        const credential = window.firebaseAuth.GoogleAuthProvider.credential(response.credential);
-        const userCredential = await window.firebaseAuth.signInWithCredential(credential);
-        const user = userCredential.user;
+        const provider = new window.firebaseAuth.GoogleAuthProvider();
+        const result = await window.firebaseAuth.auth.signInWithPopup(provider);
+        const user = result.user;
 
         // Store user data in Realtime Database
         await window.dbSet(window.dbRef(window.database, 'users/' + user.uid), {
@@ -824,6 +825,7 @@ window.handleGoogleSignInCallback = async function(response) {
             lastLogin: new Date().toISOString()
         });
 
+        // Store user info in localStorage
         localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userName', user.displayName);
         localStorage.setItem('userPicture', user.photoURL);
@@ -831,9 +833,10 @@ window.handleGoogleSignInCallback = async function(response) {
         const messageDiv = document.getElementById('message');
         if (messageDiv) {
             messageDiv.className = 'message success';
-            messageDiv.textContent = 'Login successful! Redirecting...';
+            messageDiv.textContent = 'Google Sign-in successful! Redirecting...';
         }
 
+        // Redirect after successful sign-in
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 2000);
@@ -843,10 +846,15 @@ window.handleGoogleSignInCallback = async function(response) {
         const messageDiv = document.getElementById('message');
         if (messageDiv) {
             messageDiv.className = 'message error';
-            messageDiv.textContent = error.message || 'An error occurred during Google Sign-In. Please try again.';
+            messageDiv.textContent = 'Google Sign-in failed. Please try again.';
         }
     }
 };
+
+// Initialize Google Sign-in when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initializeGoogleSignIn();
+});
 
 // Update Logout handling
 async function handleLogout() {

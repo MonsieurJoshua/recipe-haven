@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: rgb(255, 246, 228);
   color: #0e0e0e;
@@ -1009,3 +1013,121 @@ body.recipe-expanded {
 .dark-mode .vill-content p {
     color: #ffffff;
 }
+
+.content-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.image {
+    margin-left: -400px;
+}
+
+/* Content Section Styling */
+.content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    padding-top: 35px;
+}
+
+.content > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    margin-bottom: 6rem;
+}
+
+.content > div:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.content .text-section {
+    flex: 1;
+}
+
+.content .image-section {
+    flex: 1;
+    max-width: 500px;
+}
+
+.content img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);  /* Start from a larger initial scale */
+    opacity: 0.6;
+    filter: blur(1px);  /* Reduced blur effect */
+    will-change: transform, opacity, filter;
+    transition: transform 0.8s ease-out,  /* Shorter, smoother transitions */
+                opacity 0.6s ease-out,
+                filter 0.6s ease-out;
+}
+
+.content img.in-view {
+    transform: scale(1);  /* Smaller scale change */
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* Remove the no-transition state */
+.content img:not(.in-view) {
+    transform: scale(0.95);
+    opacity: 0.6;
+    filter: blur(1px);
+}
+
+/* Remove hover effect */
+.content img:hover {
+    transform: none;
+}
+
+.content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.content a {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.content a:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content > div {
+        flex-direction: column-reverse !important;
+        gap: 2rem;
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .content .image-section {
+        max-width: 100%;
+    }
+}
+

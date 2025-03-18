@@ -21,8 +21,8 @@
   <!-- Add Google Sign-In Script -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   
-  <!-- Add your Google Client ID -->
-  <meta name="google-signin-client_id" content="713856844743-eil1sugu6qrggrjetdl2jukrdvdnph8u.apps.googleusercontent.com">
+  <!-- Update Google Client ID -->
+  <meta name="google-signin-client_id" content="60664855423-k8slt2ktt1uhvrm6174qb0epokmgi5da.apps.googleusercontent.com">
 
   <!-- Add Firebase SDKs before your script.js -->
   <script type="module">
@@ -97,7 +97,10 @@
       </form>
 
       <!-- Google Sign-In Button -->
-      <button class="google-btn" onclick="handleGoogleSignIn()">Sign in with Google</button>
+      <button id="googleSignIn" class="google-btn" onclick="handleGoogleSignIn()">
+        <span class="google-icon"></span>
+        Sign in with Google
+      </button>
 
       <!-- Sign Up Link -->
       <p class="signup-text">
