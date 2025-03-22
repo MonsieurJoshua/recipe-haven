@@ -259,14 +259,14 @@ nav {
   align-items: center;
   position: relative;
   color: rgb(55, 45, 31);
-  min-height: 700px;
+  min-height: 810px;
 
 }
 
 .hero-content {
   max-width: 800px;
   padding: 0 4rem;
-  margin-left: 325px;
+  margin-left: 400px;
 }
 
 .hero-content h1 {
@@ -292,9 +292,8 @@ nav {
   display: inline-block;
   text-align: center;
   position: absolute;
-  bottom: 150px;
-  left: 640px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  bottom: 170px;
+  left: 710px;
   -webkit-backdrop-filter: blur(1.7px);
   backdrop-filter: blur(1.7px);
   align-items: center;
@@ -305,6 +304,9 @@ nav {
   color: #0e0e0e;
   border-color: white;
   opacity: 0.9;
+  transition: transform 0.4s ease;
+  transition: 0.4s;
+  transform: scale(1.05);
 }
 
 .fixed-logo {
@@ -429,14 +431,14 @@ footer {
   align-items: center;
   position: relative;
   color: rgb(55, 45, 31);
-  min-height: 700px;
+  min-height: 810px;
   background-color: rgb(255, 246, 228);
   background-size: cover;
   margin-bottom: 0;
 }
 
 .vill-content {
-  padding-left: 60px;
+  padding-left: 100px;
   color: rgb(red, green, blue);
 }
 
@@ -694,6 +696,7 @@ body.recipe-expanded {
 .au-learn:hover {
   background-color: white;
   color: #0e0e0e;
+  border: 1px solid #2d2d2d;
 }
 /* Details Section */
 .details {
@@ -701,12 +704,14 @@ body.recipe-expanded {
     color: white;
     padding: 60px 0;
     margin-top: 0;
+    height: 810px;
 }
 
 .details-content {
-    max-width: 1200px;
+    max-width: 1350px;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 70px 30px;
+    height: 810px;
 }
 
 .details h2 {

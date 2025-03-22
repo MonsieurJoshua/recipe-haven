@@ -1,6 +1,6 @@
 #carousel-wrapper {
-  width: auto;
-  height: auto;
+  width: 1523px;
+  height: 600px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -8,6 +8,10 @@
   overflow: hidden;
   background-color: rgb(255, 246, 228);
   position: relative;
+  border-radius: 12px; /* Added border-radius for curved shadow */
+  box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.1); /* Shadow follows the curvature */
+  margin-left: 90px;
+  margin-bottom: 100px
 }
 
 #carousel-wrapper.loading {
@@ -15,10 +19,10 @@
 }
 
 #carousel-wrapper #menu {
-  height: 630px;
+  height: 600px;
   width: 1523px;
   overflow: hidden;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   display: flex;
   flex-direction: row;
@@ -28,6 +32,8 @@
   transition: all 1.2s ease-in-out;
   position: relative;
   will-change: transform, opacity;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 #carousel-wrapper #menu #current-option {
@@ -293,3 +299,4 @@
 .dark-mode #carousel-wrapper #menu #current-option #current-option-text2::after {
     color: #000;
 }
+
